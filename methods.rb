@@ -28,6 +28,20 @@ def partial(template, *args)
   end
 end
 
+def parse_time(timezone, text)
+  response = open("http://www.timeapi.org/#{timezone}/#{text}").read
+end
 
+def parse_reminder(raw, timezone)  
+  atSplit = raw.split(" at ")
+  inSplit = raw.split(" in ")
+  
+  if atSplit.length == 2
+    return atSplit[0], parse_time(timezone, "#{atSplit[1]}")
+  end
+  if inSplit.length == 2
+    return inSplit[0], parse_time(timezone, "#{inSplit[1]}")
+  end
+end
 
 

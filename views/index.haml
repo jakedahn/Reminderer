@@ -1,0 +1,19 @@
+%h1 Reminderer
+
+%form{:action=> "/remind", :method => "post", :id => "remindForm"}
+  %fieldset
+    %fieldset
+      %label{:for => "task"}= "Remind me to: "
+      %textarea{:id => "task", :type => "text", :value => "", :name => "reminder[task]"}
+      
+    %fieldset
+      %label{:for => "remind_time"}= "Remind me on: "
+      %select{:name => "month"}
+        %option{:value => "11"}= "November"
+      
+      %input{:id => "client", :type => "text", :value => "", :name => "project[client]"}
+
+    %input{:id => 'submit',:type=>"submit", :value=>"Edit Project"}
+
+
+

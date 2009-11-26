@@ -43,5 +43,10 @@ def parse_reminder(raw, timezone)
     return inSplit[0], parse_time(timezone, "#{inSplit[1]}")
   end
 end
+ 
+def fetch_records
+  reminders = Reminder.find(:all, :conditions => "'time' >= '#{DateTime.parse(Time.now.to_s).to_s}'")
+  return reminders  
+end
 
 

@@ -10,7 +10,7 @@ namespace 'db' do
     ActiveRecord::Migration.create_table :reminders do |t|
       t.string :task
       t.string :phone
-      t.datetime :remind_time
+      t.string :time
       
       t.timestamps
     end

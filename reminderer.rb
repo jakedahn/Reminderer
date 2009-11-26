@@ -44,8 +44,20 @@ module Reminderer
       verb.response
     end
     
+    get "/search_records" do
+      fetch_records
+      haml :index
+    end
+    
     post "/add_reminder" do
+      reminder = Reminder.new
+      parsed = parse_reminder(params[:task], params[:timezone])
+      
+      reminder.task = parsed.first
+      reminder.time = parsed.last
+      reminder.phone = params[:phone]
 
+      reminder.save
     end
 
   end

@@ -1,0 +1,8 @@
+%div#entries
+  - @reminders.each do |reminder|
+    %div.reminder
+      %div.meta
+        %ul
+          %li= "#{reminder.id} #{reminder.task}"
+          
+          

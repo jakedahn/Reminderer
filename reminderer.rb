@@ -26,27 +26,28 @@ module Reminderer
     get '/' do
       haml :index
     end
-    
-    get "/init_call" do
-      @phone = "6122721534"
-      Twilio::Call.make('6122464910', @phone, 'http://dev.looce.com:4567/make_call')
-      haml :index
-    end
-    
+
     post "/make_call" do
-      @task = "talk to that one person"
+      puts params[:task]
       verb = Twilio::Verb.new { |v|
-        v.say("This is a reminder call from Reminderer. Please remember to: #{@task}")
+        v.say("This is a reminder call from Reminderer. Please remember to: #{params[:task]}")
         v.pause(:length => 1)
         v.say("Thank you. Good bye.")
         v.hangup
       }
       verb.response
     end
-    
+
     get "/search_records" do
-      fetch_records
-      haml :index
+      @reminders = Reminder.all(:conditions => ["time < ?", Time.now])
+      
+      @reminders.each do |reminder|
+        Net::HTTP.post_form(URI.parse('http://looce.com:4567/make_call'), {'task'=> "#{reminder.task}", 'phone' => reminder.phone})
+        # Twilio::Call.make('6122464910', reminder.phone, 'http://looce.com:4567/make_call')
+        Twilio::Call.make('6122464910', reminder.phone, "http://looce.com:4567/make_call?task=#{reminder.task.gsub(' ', '%20')}")
+      end
+      
+      haml :reminders
     end
     
     post "/add_reminder" do

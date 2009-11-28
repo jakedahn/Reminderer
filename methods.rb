@@ -37,10 +37,11 @@ def parse_reminder(raw, timezone)
   inSplit = raw.split(" in ")
   
   if atSplit.length == 2
-    return atSplit[0], parse_time(timezone, "#{atSplit[1]}")
+    return atSplit[0], parse_time(timezone, "#{atSplit[1].gsub(' ', '+')}")
   end
   if inSplit.length == 2
-    return inSplit[0], parse_time(timezone, "#{inSplit[1]}")
+    puts inSplit[1].gsub(' ', '+')
+    return inSplit[0], parse_time(timezone, "#{inSplit[1].gsub(' ', '+')}")
   end
 end
  
